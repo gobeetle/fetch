@@ -1,5 +1,4 @@
 # Fetch & Authenticator Package
-![Coverage](https://img.shields.io/badge/Coverage-74.0%25-brightgreen)
 
 This package provides a set of tools for managing HTTP requests and authentication in a Go application. It includes the following core components:
 
@@ -16,158 +15,40 @@ This package provides a set of tools for managing HTTP requests and authenticati
 
 To install the package, run:
 
-
+```
 go get github.com/gobeetle/fetch
+```
 
 
+---
+## Examples
+
+You can run the live examples from this repository using the Go toolchain.
+
+```bash
+go run ./examples
+```
+
+This will run the `examples/main.go` program, which demonstrates:
+
+- **GET request**: Fetches a post from `https://jsonplaceholder.typicode.com/posts/1` and prints the decoded JSON as a `Post` struct.
+- **POST request**: Sends a JSON payload to `https://jsonplaceholder.typicode.com/posts` and prints the created resource returned by the API.
+- **OAuth2 authentication**: Shows how to configure `fetch.NewOAuth2()` with token URL, client credentials, username/password, and scopes, then retrieves and inspects the access token and its claims.
+
+Update the URLs and credentials in `examples/main.go` as needed to match your environment when trying out OAuth2.
 
 ---
 ## Usage
-#### Fetch
-The Fetch is used to make HTTP requests with various options and automatic retry logic.
 
-Example: Basic GET Request
+> For the most accurate and up-to-date examples, use the `examples` folder as the source of truth.
 
-```go
-package main
+- **Fetch**
+  - High-level helper around `net/http`.
+  - Supports request/response modifiers, retry logic, JSON handling, and status-code filtering.
 
-import (
-    "fmt"
-    "github.com/gobeetle/fetch"
-)
+- **OAuth2 Authenticator**
+  - Provides `fetch.NewOAuth2()` for obtaining and refreshing tokens.
+  - Can also produce an `*http.Client` that automatically injects and refreshes tokens.
 
-func main() {
-    result, err := fetch.New().
-        SetReq(
-            fetch.SetMethod("GET"), 
-            fetch.SetUrl("http://example.com")
-        ).Do()
-
-    if err != nil {
-        fmt.Println("Request failed:", err)
-        return
-    }
-
-    fmt.Println("Response:", string(result.RespBytes))
-}
-```
-
-Example: POST Request with JSON Body
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/gobeetle/fetch"
-)
-
-func main() {
-    data := map[string]string{"key": "value"}
-    result, err := fetch.New().
-        SetReq(
-            fetch.SetMethod("POST"),
-            fetch.SetUrl("http://example.com/api"),
-            fetch.SetJsonBody(data),
-        ).
-        Do()
-
-    if err != nil {
-        fmt.Println("Request failed:", err)
-        return
-    }
-
-    fmt.Println("Response:", string(result.RespBytes))
-}
-```
-
----
-
-#### Authenticator
-
-The Authenticator is used to manage OAuth2 tokens, automatically obtaining and refreshing them as needed.
-
-Example: Obtaining a Token
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/gobeetle/fetch/fauth/authgateway"
-)
-
-func main() {
-    auth := authgateway.New("http://example.com/login?key=%s", "your_access_key", nil)
-    token, err := auth.GetToken()
-
-    if err != nil {
-        fmt.Println("Failed to get token:", err)
-        return
-    }
-
-    fmt.Println("Access Token:", token.AccessToken)
-}
-```
-
-Example: Using Authenticator with an HTTP Client
-
-```go
-package main
-
-import (
-    "fmt"
-    "net/http"
-    "github.com/gobeetle/fetch/fauth/authgateway"
-)
-
-func main() {
-    auth := authgateway.New("http://example.com/login?key=%s", "your_access_key", nil)
-    client := auth.Client()
-
-    req, _ := http.NewRequest("GET", "http://example.com/protected", nil)
-    resp, err := client.Do(req)
-
-    if err != nil {
-        fmt.Println("Request failed:", err)
-        return
-    }
-
-    defer resp.Body.Close()
-    fmt.Println("Response Status:", resp.Status)
-}
-
-```
-
----
-
-#### Error Handling
-The package provides a custom error type FError for detailed error handling, including status codes and error wrapping.
-
-Example: Handling Errors
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/gobeetle/fetch"
-)
-
-func main() {
-    _, err := fetch.New().
-        SetReq(fetch.SetMethod("GET"), fetch.SetUrl("http://invalid-url")).
-        Do()
-
-    if err != nil {
-        if fErr, ok := err.(fetch.FError); ok {
-            fmt.Printf("Request failed with status code %d: %s\n", fErr.StatusCode(), fErr.Error())
-        } else {
-            fmt.Println("Request failed:", err)
-        }
-    }
-}
-```
-
-#### Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
+- **Error Handling**
+  - Uses a custom `fetch.Error` type that can wrap multiple errors and carry status code, response body, and messages.
