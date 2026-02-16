@@ -4,6 +4,6 @@ import "github.com/gobeetle/fetch/internal/enum"
 
 func New() *ResponseCode {
 	return &ResponseCode{
-		StatusCodeValidation: []enum.StatusCodeFilterType{enum.EnumStatusCodeFilterType.AllValid}, // by default all valid
+		StatusCodeValidation: []enum.StatusCodeFilterType{},
 	}
 }

@@ -19,6 +19,11 @@ func (r *ResponseCode) ValidateResponse(result *rrsp.ResponseResult) *errpkg.Err
 		),
 	)
 
+	if len(r.StatusCodeValidation) == 0 && len(r.ValidStatusCodes) == 0 {
+		// if no validation set, skip validation
+		return nil
+	}
+
 	if slices.Contains(r.StatusCodeValidation, enum.EnumStatusCodeFilterType.AllInvalid) {
 		// if all invalid, return error
 		return failed
