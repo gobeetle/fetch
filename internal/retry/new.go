@@ -2,7 +2,7 @@ package retry
 
 import "time"
 
-func New[A, B any]() *Retry[A, B] {
+func New[A any, B IRetryable]() *Retry[A, B] {
 	return &Retry[A, B]{
 		count: DefaultRetryCount,
 		delay: DefaultRetryDelay,

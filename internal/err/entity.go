@@ -3,7 +3,12 @@ package err
 import (
 	"errors"
 	"strings"
+
+	rrsp "github.com/gobeetle/fetch/internal/result_response"
+	"github.com/gobeetle/fetch/internal/retry"
 )
+
+type GetRetryableFunc func(rrsp.ResponseResult, Error) *retry.Retryable
 
 type Error struct {
 	status_code int

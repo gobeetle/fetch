@@ -79,13 +79,12 @@ func (f *Fetch) do(request_result *rreq.RequestResult) (rrsp.ResponseResult, err
 	// do request
 	response, err := f.req_handler.RequestClientHandler.Do(request_result.Request)
 	rsp_r.Response = response
-	if err != nil {
-		return rsp_r, err
-	}
+	rsp_r.HttpError = err
+	// we will not fail the request if the http call fails, we will let the response handler deal with it
 	// prepare the response
-	if r, err := f.rsp_handler.Response(response); err != nil {
+	if err := f.rsp_handler.Response(&rsp_r); err != nil {
 		return rsp_r, err
 	} else {
-		return r, nil
+		return rsp_r, nil
 	}
 }

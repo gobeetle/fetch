@@ -1,8 +1,12 @@
 package response_err
 
-import "github.com/gobeetle/fetch/internal/iface"
+import (
+	errpkg "github.com/gobeetle/fetch/internal/err"
+	"github.com/gobeetle/fetch/internal/iface"
+)
 
 type ResponseErr struct {
+	RetryableFunc     errpkg.GetRetryableFunc
 	UseErrorUnwrapper bool
 	Err               error
 }

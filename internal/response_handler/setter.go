@@ -25,3 +25,4 @@ func (r *ResponseHandler) WithBodyHandler(handler iface.ResponseBodyHandler) *Re
 	r.ResponseBodyHandler = handler
 	return r
 }
+

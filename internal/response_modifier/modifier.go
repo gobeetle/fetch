@@ -2,6 +2,7 @@ package response_modifier
 
 import (
 	"github.com/gobeetle/fetch/internal/enum"
+	errpkg "github.com/gobeetle/fetch/internal/err"
 	hrsp "github.com/gobeetle/fetch/internal/response_handler"
 )
 
@@ -128,6 +129,13 @@ this is a modifier that set the error
 func WithError(err error) ResponseModifier {
 	return func(r *hrsp.ResponseHandler) *hrsp.ResponseHandler {
 		r.ResponseErrorHandler.WithError(err)
+		return r
+	}
+}
+
+func WithGetRetryableFunc(f errpkg.GetRetryableFunc) ResponseModifier {
+	return func(r *hrsp.ResponseHandler) *hrsp.ResponseHandler {
+		r.ResponseErrorHandler.WithGetRetryableFunc(f)
 		return r
 	}
 }

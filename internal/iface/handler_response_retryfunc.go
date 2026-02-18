@@ -4,10 +4,7 @@ import (
 	errpkg "github.com/gobeetle/fetch/internal/err"
 )
 
-type ResponseErrorHandler interface {
+type ResponseRetryFuncHandler interface {
 	ResponseComponentHandler
-	WithUseErrorUnwrapper()
 	WithGetRetryableFunc(getRetryableFunc errpkg.GetRetryableFunc)
-	WithError(err error)
-	Error() error
 }

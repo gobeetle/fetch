@@ -10,4 +10,5 @@ type ResponseComponentHandler interface {
 	Prepare(*rrsp.ResponseResult)                       // prepare process that does not return error
 	PrepareResponse(*rrsp.ResponseResult) *errpkg.Error // prepare that returns error
 	ValidateResponse(*rrsp.ResponseResult) *errpkg.Error
+	GetRetryableFunc() errpkg.GetRetryableFunc
 }

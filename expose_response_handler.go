@@ -19,6 +19,6 @@ var (
 	// want to build a response result with modifiers
 	// it is helpful for external integration without using fetch instance
 	BuildResponse = func(response *http.Response, modifiers ...ResponseModifier) (ResponseResult, *errpkg.Error) {
-		return ModifyResponse(NewResponseHandler(), modifiers...).Response(response)
+		return ModifyResponse(NewResponseHandler(), modifiers...).BuildResponse(response)
 	}
 )
