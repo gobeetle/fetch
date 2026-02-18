@@ -7,7 +7,7 @@ import (
 type ResponseErrorHandler interface {
 	ResponseComponentHandler
 	WithUseErrorUnwrapper()
-	WithGetRetryableFunc(getRetryableFunc errpkg.GetRetryableFunc)
+	WithRetryableFunc(getRetryableFuncs ...errpkg.GetRetryableFunc)
 	WithError(err error)
 	Error() error
 }

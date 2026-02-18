@@ -133,9 +133,9 @@ func WithError(err error) ResponseModifier {
 	}
 }
 
-func WithGetRetryableFunc(f errpkg.GetRetryableFunc) ResponseModifier {
+func WithRetryableFunc(f ...errpkg.GetRetryableFunc) ResponseModifier {
 	return func(r *hrsp.ResponseHandler) *hrsp.ResponseHandler {
-		r.ResponseErrorHandler.WithGetRetryableFunc(f)
+		r.ResponseErrorHandler.WithRetryableFunc(f...)
 		return r
 	}
 }

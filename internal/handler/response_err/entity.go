@@ -6,7 +6,7 @@ import (
 )
 
 type ResponseErr struct {
-	RetryableFunc     errpkg.GetRetryableFunc
+	RetryableFuncs    []errpkg.GetRetryableFunc
 	UseErrorUnwrapper bool
 	Err               error
 }

@@ -26,5 +26,5 @@ var (
 	WithRspJsonObjectWrapper       = mrsp.WithJsonObjectWrapper
 	WithRspUseErrorUnwrapper       = mrsp.WithUseErrorUnwrapper
 	WithRspError                   = mrsp.WithError
-	WithRspGetRetryableFunc        = mrsp.WithGetRetryableFunc
+	WithRspRetryableFunc           = mrsp.WithRetryableFunc
 )

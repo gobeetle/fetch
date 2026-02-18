@@ -140,7 +140,7 @@ func demoCustomizeRetry() {
 		).
 		ModRsp(
 			fetch.WithRsp2XXAsValidStatusCode(),
-			fetch.WithRspGetRetryableFunc(
+			fetch.WithRspRetryableFunc(
 				func(r fetch.ResponseResult, e fetch.Error) *fetch.Retryable {
 					retryable := fetch.NewRetryable()
 					var netErr *net.OpError

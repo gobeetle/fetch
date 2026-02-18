@@ -6,5 +6,5 @@ import (
 
 type ResponseRetryFuncHandler interface {
 	ResponseComponentHandler
-	WithGetRetryableFunc(getRetryableFunc errpkg.GetRetryableFunc)
+	WithGetRetryableFunc(getRetryableFuncs ...errpkg.GetRetryableFunc)
 }

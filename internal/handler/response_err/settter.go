@@ -12,6 +12,9 @@ func (r *ResponseErr) WithUseErrorUnwrapper() {
 	r.UseErrorUnwrapper = true
 }
 
-func (r *ResponseErr) WithGetRetryableFunc(f errpkg.GetRetryableFunc) {
-	r.RetryableFunc = f
+func (r *ResponseErr) WithRetryableFunc(fns ...errpkg.GetRetryableFunc) {
+	if len(fns) == 0 {
+		return
+	}
+	r.RetryableFuncs = append(r.RetryableFuncs, fns...)
 }
