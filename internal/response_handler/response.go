@@ -28,6 +28,11 @@ func (r *ResponseHandler) Response(result *rrsp.ResponseResult) (err *errpkg.Err
 		if r.ResponseErrorHandler != nil {
 			f := r.ResponseErrorHandler.GetRetryableFunc()
 			if f != nil {
+				if result.HttpError != nil {
+					// if we have http error, we should override the error with the http error
+					// since http error happens before we can get the response error
+					err = errpkg.NewError(result.HttpError)
+				}
 				// if we have a retryable function, we should use it
 				errForRetryable := err
 				if errForRetryable == nil {
@@ -38,10 +43,6 @@ func (r *ResponseHandler) Response(result *rrsp.ResponseResult) (err *errpkg.Err
 					result.SetAllowMoreRetries(retryable.AllowMoreRetries())
 					result.SetByPassRetryCountCheck(retryable.ByPassRetryCountCheck())
 				}
-			}
-			if result.HttpError != nil {
-				// if we have http error, we should override the error with the http error
-				err = errpkg.NewError(result.HttpError)
 			}
 		}
 	}()
