@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewResponseCode = response_code.New
-)
+var ()
+
+func NewResponseCode() *ResponseCode {
+	return response_code.New()
+}

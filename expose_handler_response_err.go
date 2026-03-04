@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewResponseErr = response_err.New
-)
+var ()
+
+func NewResponseErr() *ResponseErr {
+	return response_err.New()
+}

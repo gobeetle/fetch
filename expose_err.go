@@ -1,15 +1,17 @@
 package fetch
 
-import "github.com/gobeetle/fetch/internal/err"
+import (
+	errpkg "github.com/gobeetle/fetch/internal/err"
+)
 
 type (
-	Error            = err.Error
-	GetRetryableFunc = err.GetRetryableFunc
+	Error            = errpkg.Error
+	GetRetryableFunc = errpkg.GetRetryableFunc
 )
 
 const ()
 
 var (
-	NewError           = err.NewError
-	NewErrorFromString = err.NewErrorFromString
+	NewError           = errpkg.NewError
+	NewErrorFromString = errpkg.NewErrorFromString
 )

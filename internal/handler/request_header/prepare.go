@@ -8,7 +8,7 @@ import (
 )
 
 func (r *RequestHeader) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
-	req := result.Request
+	req := result.GetRequest()
 	if req.Header == nil {
 		req.Header = make(http.Header)
 	}

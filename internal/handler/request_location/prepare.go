@@ -18,7 +18,7 @@ func (r *RequestLocation) PrepareRequest(result *rreq.RequestResult) *errpkg.Err
 	}
 
 	// set url to result
-	result.URL = reqURL.String()
+	result.SetURL(reqURL.String())
 
 	// Add query parameters to the URL if they exist
 	if len(r.QueryParams) > 0 {

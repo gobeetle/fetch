@@ -8,10 +8,10 @@ import (
 func (r *ResponseCode) Prepare(result *rrsp.ResponseResult) {
 	// if status code is set, use it instead of reading from response
 	if r.StatusCode != nil {
-		result.StatusCode = *r.StatusCode
+		result.SetStatusCode(*r.StatusCode)
 	}
-	if rsp := result.Response; rsp != nil {
-		result.StatusCode = rsp.StatusCode
+	if rsp := result.GetResponse(); rsp != nil {
+		result.SetStatusCode(rsp.StatusCode)
 	}
 }
 

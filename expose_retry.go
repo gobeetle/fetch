@@ -10,7 +10,9 @@ type (
 
 const ()
 
-var (
-	// NewRetryable creates a new Retryable instance
-	NewRetryable = retry.NewRetryable
-)
+var ()
+
+// NewRetryable creates a new Retryable instance
+func NewRetryable() *Retryable {
+	return retry.NewRetryable()
+}

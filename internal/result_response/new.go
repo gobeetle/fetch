@@ -8,10 +8,10 @@ import (
 
 func New() ResponseResult {
 	r := ResponseResult{
-		Response:   &http.Response{},
-		StatusCode: 0,
-		RespBytes:  []byte{},
-		Retryable:  retry.NewRetryable(),
+		response:   &http.Response{},
+		statusCode: 0,
+		respBytes:  []byte{},
+		retryable:  *retry.NewRetryable(),
 	}
 	return r
 }

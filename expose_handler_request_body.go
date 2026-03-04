@@ -3,11 +3,13 @@ package fetch
 import "github.com/gobeetle/fetch/internal/handler/request_body"
 
 type (
-	RequestBody = request_body.RequestBody
+	RequestBody[Req any] = request_body.RequestBody[Req]
 )
 
 const ()
 
-var (
-	NewRequestBody = request_body.New
-)
+var ()
+
+func NewRequestBody[Req any]() *RequestBody[Req] {
+	return request_body.New[Req]()
+}

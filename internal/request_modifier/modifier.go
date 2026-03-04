@@ -10,8 +10,8 @@ import (
 /*
 this is a modifier that set the request body to a json object
 */
-func WithJsonBody(body any) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithJsonBody[Req any](body *Req) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestBodyHandler.WithJsonBody(body)
 		return r
 	}
@@ -20,8 +20,8 @@ func WithJsonBody(body any) RequestModifier {
 /*
 this is a modifier that set the request body to a raw byte array
 */
-func WithRawBody(body []byte) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithRawBody[Req any](body []byte) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestBodyHandler.WithRawBody(body)
 		return r
 	}
@@ -30,8 +30,8 @@ func WithRawBody(body []byte) RequestModifier {
 /*
 this is a modifier that set the request body to a form
 */
-func WithForm(body map[string]any) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithForm[Req any](body map[string]any) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestBodyHandler.WithForm(body)
 		return r
 	}
@@ -40,8 +40,8 @@ func WithForm(body map[string]any) RequestModifier {
 /*
 this is a modifier that set the http client
 */
-func WithClient(client *http.Client) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithClient[Req any](client *http.Client) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestClientHandler.WithClient(client)
 		return r
 	}
@@ -50,8 +50,8 @@ func WithClient(client *http.Client) RequestModifier {
 /*
 this is a modifier that set the header content type to json
 */
-func WithHeaderContentTypeAsJson() RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithHeaderContentTypeAsJson[Req any]() RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestHeaderHandler.WithHeaderContentTypeAsJson()
 		return r
 	}
@@ -60,8 +60,8 @@ func WithHeaderContentTypeAsJson() RequestModifier {
 /*
 this is a modifier that set the header content type to a specific content type
 */
-func WithHeaderContentType(content_type enum.MediaType) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithHeaderContentType[Req any](content_type enum.MediaType) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestHeaderHandler.WithHeaderContentType(content_type)
 		return r
 	}
@@ -70,8 +70,8 @@ func WithHeaderContentType(content_type enum.MediaType) RequestModifier {
 /*
 this is a modifier that set the value to the Authorization key in the header
 */
-func WithHeaderAuth(token string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithHeaderAuth[Req any](token string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestHeaderHandler.WithHeaderAuth(token)
 		return r
 	}
@@ -80,8 +80,8 @@ func WithHeaderAuth(token string) RequestModifier {
 /*
 this is a modifier that set the header
 */
-func WithHeader(header map[string]string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithHeader[Req any](header map[string]string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestHeaderHandler.WithHeader(header)
 		return r
 	}
@@ -90,8 +90,8 @@ func WithHeader(header map[string]string) RequestModifier {
 /*
 this is a modifier that set the header
 */
-func WithHeaderPair(key string, value string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithHeaderPair[Req any](key string, value string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestHeaderHandler.WithHeaderPair(key, value)
 		return r
 	}
@@ -100,8 +100,8 @@ func WithHeaderPair(key string, value string) RequestModifier {
 /*
 this is a modifier that clear the header
 */
-func WithHeaderCleared() RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithHeaderCleared[Req any]() RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestHeaderHandler.WithHeaderCleared()
 		return r
 	}
@@ -110,8 +110,8 @@ func WithHeaderCleared() RequestModifier {
 /*
 this is a modifier that set the method of the request
 */
-func WithMethod(method enum.MethodType) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithMethod[Req any](method enum.MethodType) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestMethodHandler.WithMethod(method)
 		return r
 	}
@@ -120,8 +120,8 @@ func WithMethod(method enum.MethodType) RequestModifier {
 /*
 this is a modifier that set the method of the request
 */
-func WithMethodString(method string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithMethodString[Req any](method string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestMethodHandler.WithMethodString(method)
 		return r
 	}
@@ -130,8 +130,8 @@ func WithMethodString(method string) RequestModifier {
 /*
 req_opt_modifier is a function that set request url
 */
-func WithUrl(endpoint string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithUrl[Req any](endpoint string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestLocationHandler.WithUrl(endpoint)
 		return r
 	}
@@ -140,8 +140,8 @@ func WithUrl(endpoint string) RequestModifier {
 /*
 req_opt_modifier is a function that set query parameters
 */
-func WithQueryParams(params map[string]string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithQueryParams[Req any](params map[string]string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestLocationHandler.WithQueryParams(params)
 		return r
 	}
@@ -150,8 +150,8 @@ func WithQueryParams(params map[string]string) RequestModifier {
 /*
 this is a modifier that add a query parameter to the request
 */
-func WithQueryParamPair(key string, value string) RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithQueryParamPair[Req any](key string, value string) RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestLocationHandler.WithQueryParamPair(key, value)
 		return r
 	}
@@ -160,8 +160,8 @@ func WithQueryParamPair(key string, value string) RequestModifier {
 /*
 this is a modifier that clear the query parameters of the request
 */
-func WithQueryParamsCleared() RequestModifier {
-	return func(r *hreq.RequestHandler) *hreq.RequestHandler {
+func WithQueryParamsCleared[Req any]() RequestModifier[Req] {
+	return func(r *hreq.RequestHandler[Req]) *hreq.RequestHandler[Req] {
 		r.RequestLocationHandler.WithQueryParamsCleared()
 		return r
 	}

@@ -7,9 +7,9 @@ import (
 )
 
 type ResponseResult struct {
-	Response   *http.Response
-	HttpError  error
-	StatusCode int
-	RespBytes  []byte
-	*retry.Retryable
+	response   *http.Response
+	httpError  error
+	statusCode int
+	respBytes  []byte
+	retryable  retry.Retryable
 }

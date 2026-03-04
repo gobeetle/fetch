@@ -5,12 +5,13 @@ import (
 )
 
 type (
-	Fetch = fetch.Fetch
+	Fetch[Req, Rsp any] = fetch.Fetch[Req, Rsp]
 )
 
 const ()
 
-var (
-	// New creates a new Fetch instance
-	New = fetch.New
-)
+var ()
+
+func New[Req, Rsp any]() *fetch.Fetch[Req, Rsp] {
+	return fetch.New[Req, Rsp]()
+}

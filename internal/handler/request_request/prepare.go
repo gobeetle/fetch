@@ -9,10 +9,10 @@ import (
 )
 
 func (r *RequestRequest) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
-	if r, err := http.NewRequest(result.Method, result.URL, nil); err != nil {
+	if req, err := http.NewRequest(result.GetMethod(), result.GetURL(), nil); err != nil {
 		return errpkg.NewError(fmt.Errorf("unable to create request: %w", err))
 	} else {
-		result.Request = r
+		result.SetRequest(req)
 	}
 	return nil
 }

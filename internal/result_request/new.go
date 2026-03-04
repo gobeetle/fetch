@@ -4,6 +4,6 @@ import "net/http"
 
 func New() RequestResult {
 	return RequestResult{
-		Request: &http.Request{},
+		request: &http.Request{},
 	}
 }

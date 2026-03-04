@@ -6,7 +6,7 @@ import (
 	rreq "github.com/gobeetle/fetch/internal/result_request"
 )
 
-func (r *RequestHandler) Request() (rreq.RequestResult, *errpkg.Error) {
+func (r *RequestHandler[Req]) Request() (rreq.RequestResult, *errpkg.Error) {
 	result := rreq.New()
 	for _, candidate := range []iface.RequestComponentHandler{
 		r.RequestLocationHandler,

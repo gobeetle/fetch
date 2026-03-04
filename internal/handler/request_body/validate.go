@@ -1,5 +1,5 @@
 package request_body
 
-func (r *RequestBody) Validate() error {
+func (r *RequestBody[Req]) Validate() error {
 	return nil
 }

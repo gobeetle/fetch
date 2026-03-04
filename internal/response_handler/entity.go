@@ -4,7 +4,7 @@ import (
 	"github.com/gobeetle/fetch/internal/iface"
 )
 
-type ResponseHandler struct {
+type ResponseHandler[Rsp any] struct {
 	/*
 	   error
 	*/
@@ -23,10 +23,10 @@ type ResponseHandler struct {
 	/*
 	   body
 	*/
-	iface.ResponseBodyHandler
+	iface.ResponseBodyHandler[Rsp]
 }
 
-func (r *ResponseHandler) Error() error {
+func (r *ResponseHandler[Rsp]) Error() error {
 	if r.ResponseErrorHandler == nil {
 		return nil
 	}

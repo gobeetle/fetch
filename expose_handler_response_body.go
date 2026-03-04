@@ -3,11 +3,13 @@ package fetch
 import "github.com/gobeetle/fetch/internal/handler/response_body"
 
 type (
-	ResponseBody = response_body.ResponseBody
+	ResponseBody[Rsp any] = response_body.ResponseBody[Rsp]
 )
 
 const ()
 
-var (
-	NewResponseBody = response_body.New
-)
+var ()
+
+func NewResponseBody[Rsp any]() *ResponseBody[Rsp] {
+	return response_body.New[Rsp]()
+}

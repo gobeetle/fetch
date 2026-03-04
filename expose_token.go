@@ -1,6 +1,9 @@
 package fetch
 
-import "github.com/gobeetle/fetch/internal/token"
+import (
+	"github.com/gobeetle/fetch/internal/token"
+	"golang.org/x/oauth2"
+)
 
 type (
 	AuthnBase          = token.AuthnBase
@@ -12,6 +15,8 @@ type (
 
 const ()
 
-var (
-	NewAuthnBase = token.NewAuthnBase
-)
+var ()
+
+func NewAuthnBase(tokenObtainer func() (*oauth2.Token, error)) *AuthnBase {
+	return token.NewAuthnBase(tokenObtainer)
+}

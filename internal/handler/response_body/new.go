@@ -1,5 +1,5 @@
 package response_body
 
-func New() *ResponseBody {
-	return &ResponseBody{}
+func New[Rsp any]() *ResponseBody[Rsp] {
+	return &ResponseBody[Rsp]{}
 }

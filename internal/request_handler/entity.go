@@ -2,7 +2,7 @@ package request_handler
 
 import "github.com/gobeetle/fetch/internal/iface"
 
-type RequestHandler struct {
+type RequestHandler[Req any] struct {
 	/*
 		Location
 	*/
@@ -31,5 +31,5 @@ type RequestHandler struct {
 	/*
 		body
 	*/
-	iface.RequestBodyHandler
+	iface.RequestBodyHandler[Req]
 }

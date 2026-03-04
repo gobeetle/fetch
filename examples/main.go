@@ -32,16 +32,20 @@ func demoGetRequest() {
 	var post Post
 
 	// Make the GET request
-	result, err := fetch.New().
+	// the two generic types are the request type and response type, use any if you don't care about the types (e.g. if the request/response doesn't have a body or you don't care about the body)
+	result, err := fetch.New[any, Post]().
 		WithRetry(5, time.Millisecond*100). // with optional retry logic
 		ModReq(
-			fetch.WithReqUrl("https://jsonplaceholder.typicode.com/posts/1"),
-			fetch.WithReqMethod(fetch.EnumMethodType.Get),
+			fetch.WithReqUrl[any]("https://jsonplaceholder.typicode.com/posts/1"),
+			fetch.WithReqMethod[any](fetch.EnumMethodType.Get),
 		).
 		ModRsp(
-			fetch.WithRsp2XXAsValidStatusCode(),
-			fetch.WithRspJsonObj(&post),
+			fetch.WithRsp2XXAsValidStatusCode[Post](),
+			fetch.WithRspJsonObj[Post](&post),
 		).Do()
+
+	//print curl command of the request (from fetch.RequestResult)
+	fmt.Printf("Curl: %s\n", result.RequestResult.Curl())
 
 	// Handle errors
 	if err != nil {
@@ -50,7 +54,7 @@ func demoGetRequest() {
 	}
 
 	// Print results
-	fmt.Printf("Status: %d\n", result.StatusCode)
+	fmt.Printf("Status: %d\n", result.ResponseResult.GetStatusCode())
 	fmt.Printf("Response: %+v\n\n", post)
 }
 
@@ -66,20 +70,24 @@ func demoPostRequest() {
 	}
 
 	// Variable to hold the response
-	var createdPost Post
+	var response Post
 
 	// Make the POST request
-	result, err := fetch.New().
+	// the two generic types are the request type and response type, use any if you don't care about the types (e.g. if the request/response doesn't have a body or you don't care about the body)
+	result, err := fetch.New[Post, Post]().
 		ModReq(
-			fetch.WithReqUrl("https://jsonplaceholder.typicode.com/posts"),
-			fetch.WithReqMethod(fetch.EnumMethodType.Post),
-			fetch.WithReqJsonBody(newPost),
-			fetch.WithReqHeaderContentTypeAsJson(),
+			fetch.WithReqUrl[Post]("https://jsonplaceholder.typicode.com/posts"),
+			fetch.WithReqMethod[Post](fetch.EnumMethodType.Post),
+			fetch.WithReqJsonBody[Post](&newPost),
+			fetch.WithReqHeaderContentTypeAsJson[Post](),
 		).
 		ModRsp(
-			fetch.WithRsp2XXAsValidStatusCode(),
-			fetch.WithRspJsonObj(&createdPost),
+			fetch.WithRsp2XXAsValidStatusCode[Post](),
+			fetch.WithRspJsonObj(&response),
 		).Do()
+
+	//print curl command of the request (from fetch.RequestResult)
+	fmt.Printf("Curl: %s\n", result.RequestResult.Curl())
 
 	// Handle errors
 	if err != nil {
@@ -88,8 +96,8 @@ func demoPostRequest() {
 	}
 
 	// Print results
-	fmt.Printf("Status: %d\n", result.StatusCode)
-	fmt.Printf("Created post: %+v\n\n", createdPost)
+	fmt.Printf("Status: %d\n", result.ResponseResult.GetStatusCode())
+	fmt.Printf("Created post: %+v\n\n", response)
 }
 
 // demoOAuth2Auth demonstrates how to use fetch.OAuth2Authn for OAuth2 authentication
@@ -131,20 +139,21 @@ func demoCustomizeRetry() {
 	// Create a variable to hold the response
 	var post Post
 
-	// Make the GET request
-	result, err := fetch.New().
+	// Make the PUT request
+	// the two generic types are the request type and response type, use any if you don't care about the types (e.g. if the request/response doesn't have a body or you don't care about the body)
+	result, err := fetch.New[any, Post]().
 		WithRetry(5, time.Millisecond*1000). // with optional retry logic (max 5 retries, 1 second delay between retries)
 		ModReq(
-			fetch.WithReqUrl("https://invalidsubdomain.nonexistenthost.nonexistentdomain/nonexistentpath/nowhere"),
-			fetch.WithReqMethod(fetch.EnumMethodType.Put),
+			fetch.WithReqUrl[any]("https://invalidsubdomain.nonexistenthost.nonexistentdomain/nonexistentpath/nowhere"),
+			fetch.WithReqMethod[any](fetch.EnumMethodType.Put),
 		).
 		ModRsp(
-			fetch.WithRsp2XXAsValidStatusCode(),
-			fetch.WithRspRetryableFunc(
+			fetch.WithRsp2XXAsValidStatusCode[Post](),
+			fetch.WithRspRetryableFunc[Post](
 				func(r fetch.ResponseResult, e fetch.Error) *fetch.Retryable {
 					retryable := fetch.NewRetryable()
 					var netErr *net.OpError
-					if errors.As(r.HttpError, &netErr) {
+					if errors.As(r.GetHttpError(), &netErr) {
 						fmt.Println("Network error detected, retrying...")
 						retryable.
 							SetAllowMoreRetries(true).
@@ -161,6 +170,9 @@ func demoCustomizeRetry() {
 			fetch.WithRspJsonObj(&post),
 		).Do()
 
+	//print curl command of the request (from fetch.RequestResult)
+	fmt.Printf("Curl: %s\n", result.RequestResult.Curl())
+
 	// Handle errors
 	if err != nil {
 		log.Printf("GET request failed: %v\n\n", err)
@@ -168,6 +180,6 @@ func demoCustomizeRetry() {
 	}
 
 	// Print results
-	fmt.Printf("Status: %d\n", result.StatusCode)
+	fmt.Printf("Status: %d\n", result.ResponseResult.GetStatusCode())
 	fmt.Printf("Response: %+v\n\n", post)
 }

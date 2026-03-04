@@ -1,5 +1,5 @@
 package request_body
 
-func New() *RequestBody {
-	return &RequestBody{}
+func New[Req any]() *RequestBody[Req] {
+	return &RequestBody[Req]{}
 }

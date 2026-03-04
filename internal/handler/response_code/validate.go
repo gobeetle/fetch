@@ -11,7 +11,7 @@ import (
 )
 
 func (r *ResponseCode) ValidateResponse(result *rrsp.ResponseResult) *errpkg.Error {
-	statusCode := result.StatusCode
+	statusCode := result.GetStatusCode()
 	failed := errpkg.NewError(
 		fmt.Errorf(
 			"status code %d is not considered valid, filter: %s",

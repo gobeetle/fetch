@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewRequestHeader = request_header.New
-)
+var ()
+
+func NewRequestHeader() *RequestHeader {
+	return request_header.New()
+}

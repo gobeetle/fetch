@@ -16,9 +16,11 @@ type (
 const ()
 
 var (
-	// NewOAuth2 creates a new OAuth2 authenticator
-	NewOAuth2 = oauth2.New
-
 	// EnumOAuth2GrantType provides the available OAuth2 grant types
 	EnumOAuth2GrantType = oauth2.EnumGrantType
 )
+
+// NewOAuth2 creates a new OAuth2 authenticator
+func NewOAuth2() *OAuth2Authn {
+	return oauth2.New()
+}

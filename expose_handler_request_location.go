@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewRequestLocation = request_location.New
-)
+var ()
+
+func NewRequestLocation() *RequestLocation {
+	return request_location.New()
+}

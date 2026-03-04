@@ -34,14 +34,14 @@ this function always returns a new token from the source
 func (a *Authn) NewToken() (*oauth2.Token, error) {
 	resp := Response{Data: &TokenResponse{}}
 	_, err :=
-		fetch.New().
+		fetch.New[any, Response]().
 			ModReq(
-				fetch.WithReqMethod("GET"),
-				fetch.WithReqUrl(fmt.Sprintf(a.login_url_format, a.access_key)),
+				fetch.WithReqMethod[any]("GET"),
+				fetch.WithReqUrl[any](fmt.Sprintf(a.login_url_format, a.access_key)),
 			).
 			ModRsp(
-				fetch.WithRsp2XXAsValidStatusCode(),
-				fetch.WithRspJsonObjectWrapper(&resp, "Data", resp.Data),
+				fetch.WithRsp2XXAsValidStatusCode[Response](),
+				fetch.WithRspJsonObj[Response](&resp),
 			).Do()
 
 	if err != nil {

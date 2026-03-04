@@ -6,6 +6,6 @@ import (
 )
 
 func (r *RequestMethod) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
-	result.Method = string(r.Method)
+	result.SetMethod(string(r.Method))
 	return nil
 }

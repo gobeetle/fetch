@@ -18,7 +18,7 @@ func (r *ResponseErr) PrepareResponse(result *rrsp.ResponseResult) *errpkg.Error
 	if !r.UseErrorUnwrapper {
 		return nil
 	}
-	rawResponse := result.RespBytes
+	rawResponse := result.GetRespBytes()
 	if len(rawResponse) == 0 {
 		return nil
 	}

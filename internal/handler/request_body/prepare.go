@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net/http"
 	"net/url"
-	"strings"
 
 	"github.com/gobeetle/fetch/internal/enum"
 	errpkg "github.com/gobeetle/fetch/internal/err"
@@ -14,10 +14,11 @@ import (
 	rreq "github.com/gobeetle/fetch/internal/result_request"
 )
 
-func (r *RequestBody) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
-	req := result.Request
+func (r *RequestBody[Req]) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
+	req := result.GetRequest()
+
 	if r.RawBody != nil {
-		req.Body = io.NopCloser(bytes.NewReader(r.RawBody))
+		applyBody(req, r.RawBody)
 	}
 	if r.FormBody != nil {
 		request_header.SetHeaderContentType(req, enum.EnumMediaType.MediaTypeForm)
@@ -25,19 +26,18 @@ func (r *RequestBody) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
 		for key, value := range r.FormBody {
 			form.Add(key, fmt.Sprintf("%v", value))
 		}
-
-		req.Body = io.NopCloser(strings.NewReader(form.Encode()))
+		applyBody(req, []byte(form.Encode()))
 	}
 	if r.JsonBody != nil {
 		request_header.SetHeaderContentType(req, enum.EnumMediaType.MediaTypeJson)
 		var raw_body []byte
-		switch v := r.JsonBody.(type) {
+		switch v := any(*r.JsonBody).(type) {
 		case []byte:
 			raw_body = v
 		case string:
 			raw_body = []byte(v)
 		default:
-			r, err := json.Marshal(r.JsonBody)
+			r, err := json.Marshal(*r.JsonBody)
 			if err != nil {
 				return errpkg.NewError(
 					fmt.Errorf("prepare request body: %v", err),
@@ -45,7 +45,16 @@ func (r *RequestBody) PrepareRequest(result *rreq.RequestResult) *errpkg.Error {
 			}
 			raw_body = r
 		}
-		req.Body = io.NopCloser(bytes.NewReader(raw_body))
+		applyBody(req, raw_body)
 	}
 	return nil
+}
+
+// applyBody sets the request body and related fields
+func applyBody(req *http.Request, b []byte) {
+	req.Body = io.NopCloser(bytes.NewReader(b))
+	req.ContentLength = int64(len(b))
+	req.GetBody = func() (io.ReadCloser, error) {
+		return io.NopCloser(bytes.NewReader(b)), nil
+	}
 }

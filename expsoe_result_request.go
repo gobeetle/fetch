@@ -1,13 +1,17 @@
 package fetch
 
-import "github.com/gobeetle/fetch/internal/result_request"
+import (
+	rreq "github.com/gobeetle/fetch/internal/result_request"
+)
 
 type (
-	RequestResult = result_request.RequestResult
+	RequestResult = rreq.RequestResult
 )
 
 const ()
 
-var (
-	NewRequestResult = result_request.New
-)
+var ()
+
+func NewRequestResult() RequestResult {
+	return rreq.New()
+}

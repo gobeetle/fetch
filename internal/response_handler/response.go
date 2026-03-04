@@ -9,10 +9,10 @@ import (
 	rrsp "github.com/gobeetle/fetch/internal/result_response"
 )
 
-func (r *ResponseHandler) BuildResponse(response *http.Response) (rrsp.ResponseResult, *errpkg.Error) {
+func (r *ResponseHandler[Rsp]) BuildResponse(response *http.Response) (rrsp.ResponseResult, *errpkg.Error) {
 	result := rrsp.New()
-	result.Response = response
-	if result.Response == nil {
+	result.SetResponse(response)
+	if result.GetResponse() == nil {
 		return rrsp.ResponseResult{}, errpkg.NewError(
 			fmt.Errorf("response cannot be nil"),
 		)
@@ -23,15 +23,15 @@ func (r *ResponseHandler) BuildResponse(response *http.Response) (rrsp.ResponseR
 	return result, nil
 }
 
-func (r *ResponseHandler) Response(result *rrsp.ResponseResult) (err *errpkg.Error) {
+func (r *ResponseHandler[Rsp]) Response(result *rrsp.ResponseResult) (err *errpkg.Error) {
 	defer func() {
 		if r.ResponseErrorHandler != nil {
 			f := r.ResponseErrorHandler.GetRetryableFunc()
 			if f != nil {
-				if result.HttpError != nil {
+				if result.GetHttpError() != nil {
 					// if we have http error, we should override the error with the http error
 					// since http error happens before we can get the response error
-					err = errpkg.NewError(result.HttpError)
+					err = errpkg.NewError(result.GetHttpError())
 				}
 				// if we have a retryable function, we should use it
 				errForRetryable := err
@@ -48,7 +48,7 @@ func (r *ResponseHandler) Response(result *rrsp.ResponseResult) (err *errpkg.Err
 	}()
 
 	// result.Response = response
-	if result.Response == nil {
+	if result.GetResponse() == nil {
 		return errpkg.NewError(
 			fmt.Errorf("response cannot be nil"),
 		)
@@ -77,8 +77,8 @@ func (r *ResponseHandler) Response(result *rrsp.ResponseResult) (err *errpkg.Err
 			if err := candidate.ValidateResponse(result); err != nil {
 				return errpkg.
 					NewError(err).
-					WithCode(result.StatusCode).
-					WithResponse(string(result.RespBytes))
+					WithCode(result.GetStatusCode()).
+					WithResponse(string(result.GetRespBytes()))
 			}
 		}
 	}
@@ -94,8 +94,8 @@ func (r *ResponseHandler) Response(result *rrsp.ResponseResult) (err *errpkg.Err
 			if err := candidate.PrepareResponse(result); err != nil {
 				return errpkg.
 					NewError(err).
-					WithCode(result.StatusCode).
-					WithResponse(string(result.RespBytes))
+					WithCode(result.GetStatusCode()).
+					WithResponse(string(result.GetRespBytes()))
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 package iface
 
-type RequestBodyHandler interface {
+type RequestBodyHandler[Req any] interface {
 	RequestComponentHandler
-	WithJsonBody(body any)
+	WithJsonBody(body *Req)
 	WithRawBody(body []byte)
 	WithForm(body map[string]any)
 }

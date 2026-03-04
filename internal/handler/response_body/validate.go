@@ -5,10 +5,10 @@ import (
 	rrsp "github.com/gobeetle/fetch/internal/result_response"
 )
 
-func (r *ResponseBody) ValidateResponse(result *rrsp.ResponseResult) *errpkg.Error {
+func (r *ResponseBody[Rsp]) ValidateResponse(result *rrsp.ResponseResult) *errpkg.Error {
 	return nil
 }
 
-func (r *ResponseBody) Validate() error {
+func (r *ResponseBody[Rsp]) Validate() error {
 	return nil
 }

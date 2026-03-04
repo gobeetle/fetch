@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewRequestMethod = request_method.New
-)
+var ()
+
+func NewRequestMethod() *RequestMethod {
+	return request_method.New()
+}

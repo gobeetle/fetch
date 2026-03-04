@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewResponseRawBody = response_rawbody.New
-)
+var ()
+
+func NewResponseRawBody() *ResponseRawBody {
+	return response_rawbody.New()
+}

@@ -8,6 +8,8 @@ type (
 
 const ()
 
-var (
-	NewRequestClient = request_client.New
-)
+var ()
+
+func NewRequestClient() *RequestClient {
+	return request_client.New()
+}

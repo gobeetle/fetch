@@ -39,14 +39,14 @@ func (a *Authn) NewToken() (*oauth2.Token, error) {
 	// otherwise get the token from the server and set it to T as well
 	token_resp := TokenResponse{}
 	_, err :=
-		fetch.New().
+		fetch.New[any, TokenResponse]().
 			ModReq(
-				mreq.WithMethod("POST"),
-				mreq.WithUrl(a.token_url),
-				mreq.WithForm(a.GetOAuthForm()),
+				mreq.WithMethod[any]("POST"),
+				mreq.WithUrl[any](a.token_url),
+				mreq.WithForm[any](a.GetOAuthForm()),
 			).
 			ModRsp(
-				mrsp.With2XXAsValidStatusCode(),
+				mrsp.With2XXAsValidStatusCode[TokenResponse](),
 				mrsp.WithJsonObj(&token_resp),
 			).Do()
 
