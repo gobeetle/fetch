@@ -4,6 +4,10 @@ import (
 	"net/http"
 )
 
+func (r *ResponseResult) IsEmpty() bool {
+	return r.response == nil
+}
+
 func (r *ResponseResult) GetResponse() *http.Response {
 	return r.response
 }

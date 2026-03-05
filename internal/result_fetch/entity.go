@@ -6,6 +6,6 @@ import (
 )
 
 type Result struct {
-	RequestResult  rreq.RequestResult
-	ResponseResult rrsq.ResponseResult
+	RequestResult  rreq.RequestResult  `json:"request"`
+	ResponseResult rrsq.ResponseResult `json:"response"`
 }

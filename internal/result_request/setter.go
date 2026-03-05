@@ -13,3 +13,7 @@ func (r *RequestResult) SetURL(url string) {
 func (r *RequestResult) SetRequest(request *http.Request) {
 	r.request = request
 }
+
+func (r *RequestResult) SetCurl(curl string) {
+	r.curl = curl
+}

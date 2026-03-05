@@ -44,9 +44,6 @@ func demoGetRequest() {
 			fetch.WithRspJsonObj[Post](&post),
 		).Do()
 
-	//print curl command of the request (from fetch.RequestResult)
-	fmt.Printf("Curl: %s\n", result.RequestResult.Curl())
-
 	// Handle errors
 	if err != nil {
 		log.Printf("GET request failed: %v\n\n", err)
@@ -54,7 +51,7 @@ func demoGetRequest() {
 	}
 
 	// Print results
-	fmt.Printf("Status: %d\n", result.ResponseResult.GetStatusCode())
+	fmt.Printf("result: %s\n", result)
 	fmt.Printf("Response: %+v\n\n", post)
 }
 
@@ -86,9 +83,6 @@ func demoPostRequest() {
 			fetch.WithRspJsonObj(&response),
 		).Do()
 
-	//print curl command of the request (from fetch.RequestResult)
-	fmt.Printf("Curl: %s\n", result.RequestResult.Curl())
-
 	// Handle errors
 	if err != nil {
 		log.Printf("POST request failed: %v\n\n", err)
@@ -96,7 +90,7 @@ func demoPostRequest() {
 	}
 
 	// Print results
-	fmt.Printf("Status: %d\n", result.ResponseResult.GetStatusCode())
+	fmt.Printf("result: %s\n", result)
 	fmt.Printf("Created post: %+v\n\n", response)
 }
 
@@ -170,9 +164,6 @@ func demoCustomizeRetry() {
 			fetch.WithRspJsonObj(&post),
 		).Do()
 
-	//print curl command of the request (from fetch.RequestResult)
-	fmt.Printf("Curl: %s\n", result.RequestResult.Curl())
-
 	// Handle errors
 	if err != nil {
 		log.Printf("GET request failed: %v\n\n", err)
@@ -180,6 +171,6 @@ func demoCustomizeRetry() {
 	}
 
 	// Print results
-	fmt.Printf("Status: %d\n", result.ResponseResult.GetStatusCode())
+	fmt.Printf("result: %s\n", result)
 	fmt.Printf("Response: %+v\n\n", post)
 }
