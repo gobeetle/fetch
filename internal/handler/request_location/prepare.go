@@ -17,9 +17,6 @@ func (r *RequestLocation) PrepareRequest(result *rreq.RequestResult) *errpkg.Err
 		)
 	}
 
-	// set url to result
-	result.SetURL(reqURL.String())
-
 	// Add query parameters to the URL if they exist
 	if len(r.QueryParams) > 0 {
 		query := reqURL.Query()
@@ -27,8 +24,10 @@ func (r *RequestLocation) PrepareRequest(result *rreq.RequestResult) *errpkg.Err
 			query.Set(key, value)
 		}
 		reqURL.RawQuery = query.Encode()
-		r.URL = reqURL.String()
 	}
+
+	r.URL = reqURL.String()        // update the URL
+	result.SetURL(reqURL.String()) // set url to the result
 
 	return nil
 }
