@@ -15,6 +15,7 @@ func (r *RequestHandler[Req]) Request() (rreq.RequestResult, *errpkg.Error) {
 		r.RequestClientHandler,
 		r.RequestHeaderHandler,
 		r.RequestBodyHandler,
+		r.RequestCurlHandler,
 	} {
 		if candidate != nil {
 			if err := candidate.PrepareRequest(&result); err != nil {

@@ -39,3 +39,9 @@ func (r *RequestHandler[Req]) WithBody(body iface.RequestBodyHandler[Req]) *Requ
 	r.RequestBodyHandler = body
 	return r
 }
+
+// WithCurl sets the curl generator handler
+func (r *RequestHandler[Req]) WithCurl(curl iface.RequestCurlHandler) *RequestHandler[Req] {
+	r.RequestCurlHandler = curl
+	return r
+}

@@ -32,4 +32,9 @@ type RequestHandler[Req any] struct {
 		body
 	*/
 	iface.RequestBodyHandler[Req]
+
+	/*
+		curl
+	*/
+	iface.RequestCurlHandler
 }

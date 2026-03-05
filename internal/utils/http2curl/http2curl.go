@@ -98,11 +98,16 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 	}
 	var keys []string
 	for k := range req.Header {
+		if strings.EqualFold(k, "Host") {
+			continue
+		}
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 	for _, k := range keys {
-		command.append("-H", bashEscape(fmt.Sprintf("%s: %s", k, strings.Join(req.Header[k], " "))))
+		for _, v := range req.Header[k] {
+			command.append("-H", bashEscape(fmt.Sprintf("%s: %s", k, v)))
+		}
 	}
 	command.append(bashEscape(req.URL.String()))
 	return &command, nil

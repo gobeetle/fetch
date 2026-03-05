@@ -7,6 +7,7 @@ import (
 
 	"github.com/gobeetle/fetch/internal/handler/request_body"
 	"github.com/gobeetle/fetch/internal/handler/request_client"
+	"github.com/gobeetle/fetch/internal/handler/request_curl"
 	"github.com/gobeetle/fetch/internal/handler/request_header"
 	"github.com/gobeetle/fetch/internal/handler/request_location"
 	"github.com/gobeetle/fetch/internal/handler/request_method"
@@ -93,7 +94,8 @@ func defaultRequestHandler[Req any]() *hreq.RequestHandler[Req] {
 		WithRequest(request_request.New()).
 		WithClient(request_client.New()).
 		WithHeader(request_header.New()).
-		WithBody(request_body.New[Req]())
+		WithBody(request_body.New[Req]()).
+		WithCurl(request_curl.New())
 }
 
 // defaultResponseHandler is the default implementation of response handler creator
