@@ -1,0 +1,16 @@
+name: Warm Go proxy/sumdb on tag
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+      - "**/v*.*.*"
+
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull new module version
+        uses: andrewslotin/go-proxy-pull-action@master
+        # with:
+        #   goproxy: https://proxy.golang.org
