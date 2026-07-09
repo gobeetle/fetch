@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/gobeetle/fetch"
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/oauth2"
-	"gopkg.in/square/go-jose.v2/jwt"
 )
 
 // use private fields with one new function (constructor) to make fields immutable after creation, so that they can't be changed
@@ -57,14 +57,14 @@ func (a *Authn) NewToken() (*oauth2.Token, error) {
 		return nil, fmt.Errorf("invalid token response")
 	}
 
-	parsedJwt, parseErr := jwt.ParseSigned(token_resp.AccessToken)
+	tokenObj, _, parseErr := new(jwt.Parser).ParseUnverified(token_resp.AccessToken, jwt.MapClaims{})
 	if parseErr != nil {
 		return nil, parseErr
 	}
 
-	var claims map[string]any
-	if err := parsedJwt.UnsafeClaimsWithoutVerification(&claims); err != nil {
-		return nil, err
+	claims, ok := tokenObj.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, fmt.Errorf("invalid token claims format")
 	}
 
 	token_exp, ok := claims["exp"].(float64)
